@@ -1,5 +1,6 @@
 package com.example.zerohungerhackathon;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,16 @@ public class MyAdapter extends ArrayAdapter<Item> {
             Log.d("UpdateCSV", "Item: " + item.getId() + ", " + item.getName() + ", " + item.getUsed());
 //            remove(item);
             notifyDataSetChanged();
+            // TODO: conditionally show error based on local db that has already been reconciled with the under devices
+            if (item.getName().equals("Kevin")){
+                new AlertDialog.Builder(this.mContext)
+                        .setTitle("Alert")
+                        .setMessage(String.format("Student (%s) has already received food today.", item.getName()))
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
             csvFileManager.updateItems(items);  // Update CSV after item status changes
         });
 
